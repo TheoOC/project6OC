@@ -2,13 +2,14 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const sauceRoutes = require('./routes/sauces');
-const userRoutes = require ('./routes/auth');
+const userRoutes = require('./routes/auth');
+const path = require('path');
 
 //connect to database
 mongoose.connect('mongodb+srv://admin:admin1234@cluster0.woshq.mongodb.net/<dbname>?retryWrites=true&w=majority',
-    { useNewUrlParser: true, useUnifiedTopology: true })
-    .then(() => console.log('successfully connected to mongoDB!'))
-    .catch((error) => console.log('failed to connect to mongoDB!'));
+  { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true })
+  .then(() => console.log('successfully connected to mongoDB!'))
+  .catch((error) => console.log('failed to connect to mongoDB!'));
 
 const app = express();
 
@@ -21,7 +22,9 @@ app.use((req, res, next) => {
 //parse body of request
 app.use(bodyParser.json());
 
-app.use('/api/auth',userRoutes);
-app.use('/api/sauces',sauceRoutes);
+app.use('/images', express.static(path.join(__dirname, 'images')));
+
+app.use('/api/auth', userRoutes);
+app.use('/api/sauces', sauceRoutes);
 
 module.exports = app;
