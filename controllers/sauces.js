@@ -14,7 +14,6 @@ exports.getOneSauce = (req, res, next) => {
         .then(sauce => res.status(200).json(sauce))
         .catch(error => res.status(400).json({ error }))
 };
-
 exports.createSauce = (req, res, next) => {
     const sauceObject = JSON.parse(req.body.sauce);
     delete sauceObject._id;
