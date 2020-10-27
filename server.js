@@ -1,6 +1,9 @@
 const app = require('./app');
 const http = require('http');
 
+require('dotenv').config();
+
+//return a valid port wether the val provided is a int or string
 const normalizePort = val => {
   const port = parseInt(val, 10);
 
@@ -15,6 +18,7 @@ const normalizePort = val => {
 const port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
 
+//handle errors
 const errorHandler = error => {
   if (error.syscall !== 'listen') {
     throw error;
@@ -34,13 +38,16 @@ const errorHandler = error => {
       throw error;
   }
 };
+//create server with express application
 const server = http.createServer(app);
 
 server.on('error', errorHandler);
+//console log the port when the server starts listening
 server.on('listening', () => {
   const address = server.address();
   const bind = typeof address === 'string' ? 'pipe ' + address : 'port ' + port;
   console.log('Listening on ' + bind);
 });
 
+//configure server to listen to the port
 server.listen(port);

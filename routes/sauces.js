@@ -1,12 +1,13 @@
 const express = require('express');
+
 const router = express.Router();
 
+//auth middleware verify that the user is authenticated before sending requests
 const auth = require('../middlewares/auth');
 const multer = require('../middlewares/multer-config');
 const isOwner = require('../middlewares/isOwner');
 
 const sauceCtrl = require('../controllers/sauces');
-
 
 router.get('/', auth, sauceCtrl.getAllSauces);
 router.post('/', auth, multer, sauceCtrl.createSauce);

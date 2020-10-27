@@ -1,10 +1,16 @@
 const jwt = require('jsonwebtoken');
 const Sauce = require('../models/Sauce');
 
+const dotenv = require('dotenv');
+const result = dotenv.config();
+if (result.error) {
+  throw result.error;
+}
+
 module.exports = (req, res, next) => {
     try {
         const token = req.headers.authorization.split(' ')[1];
-        const decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET');
+        const decodedToken = jwt.verify(token,process.env.SECRETKEY); 
         const userId = decodedToken.userId;
         Sauce.findOne({ _id: req.params.id })
             .then(sauce => {
